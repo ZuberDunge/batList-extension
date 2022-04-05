@@ -1,13 +1,64 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+footer {
+  text-align: center;
+  font-size: 1rem;
+  margin: 1rem 0;
+  font-weight: 500;
+  padding: 1rem;
+  background: #6225e6;
+  margin: 1rem -1rem -1rem -1rem;
+  transition: .2s all;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+footer:hover {
+  background-color: var(--primary-red-dark);
+}
+
+footer a {
+  transition: .3s all;
+}
+
+footer a:hover {
+  color: #1a304e;
+}
+
+:root {
+  --primary-red: #6225E6
+}
+
+img {
+  max-width: 100%;
+}
+
+.ty-logo {
+  max-width: 80px;
+  transform: rotate(31deg);
+  display: flex;
+  margin: auto;
+}
+
+.parent-div {
+  gap: .5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.hero-img {
+  margin-left: -1rem;
+  max-width: 480px;
+  width: 132%;
+}
+
+.main {
+  min-height: 100vh;
+}
+
+.app-info ul li {
+  padding: .5rem;
+  font-size: 1.25rem;
+
+}
+
+.app-info ul {
+  list-style-type: disclosure-closed;
 }

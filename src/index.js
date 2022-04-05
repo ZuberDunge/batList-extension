@@ -3,10 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import ListContextProvider from './context/data';
+import Home from './home';
+import AuthContextProvider from './context/authContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+
+    <ListContextProvider><AuthContextProvider>
+      <Home />
+    </AuthContextProvider>
+    </ListContextProvider>
+
   </React.StrictMode>,
   document.getElementById('root')
 );
