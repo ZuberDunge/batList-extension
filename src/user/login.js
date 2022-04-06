@@ -21,7 +21,7 @@ export default function Login() {
     const signInUser = (data) => {
         login(data.userEmail, data.userPassword)
     };
-    console.log(user, !user);
+
 
     return (<>
         {

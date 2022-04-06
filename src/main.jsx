@@ -1,5 +1,5 @@
 import { useState } from "react"
-import HeroImage from "./assets/hero.svg"
+import HeroImage from "./assets/hero.png"
 import YTLogo from "./assets/Youtube.png"
 import Button from "./button"
 import Login from "./user/login"

@@ -23,7 +23,7 @@ function App(props) {
       localStorage.setItem("userID", JSON.stringify(user.uid))
     }
   }, [])
-  const { loading, random, stopLoading, addVideoToList, checkIfInList, deleteUser, alreadyInList, currentVideo, isLoaded, batList, userName, } = useContext(ListContext);
+  const { showNotificationForRandom, randomData, loading, random, stopLoading, randomMusicVideo, addVideoToList, checkIfInList, deleteUser, alreadyInList, currentVideo, isLoaded, batList, userName, } = useContext(ListContext);
   const { logout } = useContext(AuthContext)
   const [search, setSearch] = useState("")
 
@@ -59,7 +59,6 @@ function App(props) {
   useEffect(() => {
     if (isLoaded) {
       checkIfInList()
-      console.log("check");
     }
   }, [isLoaded])
 
@@ -101,7 +100,18 @@ function App(props) {
       {loading ?
         (batList.length > 0 ?
           <>
-            <h3>Your WatchList 🌻</h3>
+            <div className="bat-flex bat-justify-between bat-align-center" style={{ marginTop: "0.5rem" }}>
+              <h3>Your WatchList 🌻</h3>
+              <a
+                href={`https://www.youtube.com/watch?v=${randomData.resourceId.videoId}`}
+                target="_blank"
+                class="bat-btn bat-br-3px bat-fw-600 bat-fs-14px bat-btn-with-icon random-btn"
+                onClick={() => showNotificationForRandom(randomData)}
+              >
+                <span>Play A Random Song </span> <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+
             <div className='relative'><input className='searchbar' type="text" value={search} onChange={searchFunction}
               placeholder={batList[Math.floor(Math.random() * batList.length)] != undefined ? `Try "${batList[Math.floor(Math.random() * batList.length)]._document.data.value.mapValue.fields.title.stringValue}"` : "Search here"}
             />
@@ -138,6 +148,14 @@ function App(props) {
             <img src={YTLogo} className="ty-logo" alt="" /> <h3 className='bat-txt-center'>
               There are no videos in the watchlist yet, start adding!
             </h3>
+            <a
+              href={`https://www.youtube.com/watch?v=${randomData.resourceId.videoId}`}
+              target="_blank"
+              class="bat-btn bat-flex bat-justify-center bat-br-3px bat-text-center bat-fw-600 bat-fs-14px bat-btn-with-icon random-btn"
+              onClick={() => showNotificationForRandom(randomData)}
+            >
+              <span>Play A Random Song </span> <i class="fas fa-external-link-alt"></i>
+            </a>
           </div>
         ) :
         <ContentLoader

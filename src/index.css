@@ -1,3 +1,16 @@
+html:not(.style-scope)[standardized-themed-scrollbar] {
+  scrollbar-color: var(--primary-red) transparent;
+  scrollbar-width: none;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+body {
+  overflow-x: hidden;
+}
+
 footer {
   text-align: center;
   font-size: 1rem;
