@@ -46,7 +46,6 @@ const AuthContextProvider = (props) => {
             const { user } = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
             localStorage.setItem("userID", JSON.stringify(user.uid))
             await setDoc(doc(db, user.uid, user.uid), { title: "", img: "", link: "", username: userName })
-            console.log('Document Added')
             setIsLoggedIn(true)
             setStopLoading(true)
             // remember me
@@ -65,7 +64,6 @@ const AuthContextProvider = (props) => {
     useEffect(() => {
         if (localStorage.getItem("userEmail") != null) {
             setLoginEmail(localStorage.getItem("userEmail"))
-            console.log(localStorage.getItem("userEmail") != null);
         }
         if (localStorage.getItem("userPassword") != null) {
             setLoginPassword(localStorage.getItem("userPassword"))
@@ -79,7 +77,6 @@ const AuthContextProvider = (props) => {
                 password
             );
             localStorage.setItem("userID", JSON.stringify(user.uid))
-            console.log(user);
             setIsLoggedIn(true)
 
             // remember me
@@ -96,7 +93,6 @@ const AuthContextProvider = (props) => {
 
     const logout = async () => {
         await signOut(auth);
-        console.log("logged out");
         localStorage.removeItem("userID")
         setIsLoggedIn(false)
     };
@@ -106,7 +102,6 @@ const AuthContextProvider = (props) => {
         setTimeout(() => {
             setwrongPassword(false)
         }, 2000)
-        console.log("settime");
         setwrongPassword(true)
     }
 
@@ -114,7 +109,6 @@ const AuthContextProvider = (props) => {
         setTimeout(() => {
             setuserExist(false)
         }, 2000)
-        console.log("settime");
         setuserExist(true)
     }
 

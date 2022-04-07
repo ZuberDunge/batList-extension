@@ -15,17 +15,12 @@ export default function Home() {
 
     useEffect(() => {
         newUserID = JSON.parse(localStorage.getItem('userID'))
-        console.log(newUserID);
         if (newUserID != null) {
             setIsLoggedIn(true)
-            console.log(newUserID);
         } else {
             setIsLoggedIn(false)
-            console.log(newUserID);
         }
     }, [isLoggedIn])
-
-
 
 
     return (<>

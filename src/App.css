@@ -19,6 +19,7 @@ body {
   outline: none;
   border: 2px solid #a8dadc50;
   transition: .3s all;
+  color: white;
   background-color: #ffffff25;
 }
 
@@ -109,4 +110,13 @@ body {
 
 .input-parent label {
   position: static !important;
+}
+
+.random-btn {
+  border: 2px solid var(--primary-red);
+  background: transparent;
+}
+
+.random-btn:hover {
+  background: var(--primary-red);
 }

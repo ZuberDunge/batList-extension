@@ -27,7 +27,6 @@ const ListContextProvider = (props) => {
 
     const checkIfLoggedIn = () => {
         let newUserID = JSON.parse(localStorage.getItem('userID'))
-        console.log(newUserID);
         if (newUserID != null) {
             setIsLoggedIn(true)
         } else {
@@ -47,7 +46,6 @@ const ListContextProvider = (props) => {
     useEffect(() => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-            console.log(tabs[0].url);
             var newURL = tabs[0].url
             if (newURL.includes(link)) {
                 var newYTURL = newURL.replace("https://www.youtube.com/watch?v=", "");
@@ -55,10 +53,8 @@ const ListContextProvider = (props) => {
                 fetch(apiLINK)
                     .then(data => data.json())
                     .then(data => {
-                        console.log(data)
                         var newVideo = data.items[0];
                         setCurrentVideo(newVideo)
-                        console.log(newVideo.snippet.title);
                         setisLoaded(true)
                         checkIfInList()
                     })
@@ -66,14 +62,7 @@ const ListContextProvider = (props) => {
             } else {
             }
         })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        // chrome.notifications.create('test', {
-        //     type: 'basic',
-        //     iconUrl: YTLogo,
-        //     title: 'Test Message',
-        //     message: 'You are awesome!',
-        //     priority: 2
-        // });
+
     }, [user, chrome.tabs])
 
 
@@ -90,12 +79,9 @@ const ListContextProvider = (props) => {
             const usersCollectionRef = collection(db, newUserID);
             const getUsers = async () => {
                 const data = await getDocs(usersCollectionRef);
-                console.log(data.docs);
                 // setBatList(data.docs)
                 setBatList(data.docs.filter(item => item._document.data.value.mapValue.fields.title.stringValue.length >= 1));
-                console.log(data.docs.filter(item => item._document.data.value.mapValue.fields.title.stringValue.length >= 1));
                 let userNameData = data.docs.filter(item => item._document.data.value.mapValue.fields.username != null);
-                console.log(userNameData);
                 setuserName(userNameData)
                 setloading(true)
             };
@@ -104,13 +90,41 @@ const ListContextProvider = (props) => {
 
     }, [causeReRender, user, localStorage.getItem("userID")]);
 
+    const [rerenderRandom, setReRenderRandom] = useState(true)
+    const showNotificationForRandom = (item) => {
+        // eslint - disable - next - line react - hooks / exhaustive - deps
+        chrome.notifications.create('test', {
+            type: 'basic',
+            iconUrl: YTLogo,
+            title: `Playing ${item.title}`,
+            message: `Hey ${userName[0]._document.data.value.mapValue.fields.username.stringValue}, ${random[Math.floor(Math.random() * random.length)]} 🌻`,
+            priority: 2
+        });
+        setReRenderRandom(!rerenderRandom)
+    }
 
 
+    const [randomMusicVideo, setrandomMusicVideo] = useState("")
+    const [randomData, setrandomData] = useState([])
+
+    const playListIDs = ["RDCLAK5uy_n9Fbdw7e6ap-98_A-8JYBmPv64v-Uaq1g", "RDCLAK5uy_ngT3H4Vu-YMwwjFPt6Ocr3n7j2l-cUAeQ", "RDCLAK5uy_k1272v-yXtLJm7gmMiAxjOl-vh5aEC11A", "PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG"]
+
+    useEffect(() => {
+        const playListID = playListIDs[Math.floor(Math.random() * playListIDs.length)]
+        fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playListID}&key=${apiKey}&maxResults=50`)
+            .then(data => data.json())
+            .then(data => {
+                setrandomMusicVideo(data.items[Math.floor(Math.random() * data.items.length)].snippet.resourceId.videoId)
+                setrandomData(data.items[Math.floor(Math.random() * data.items.length)].snippet)
+                // showNotificationForRandom(data.items[Math.floor(Math.random() * data.items.length)].snippet)
+            })
+
+
+    }, [rerenderRandom])
     // check and add video to list
     const [alreadyInList, setAlreadyInList] = useState(false)
     const addVideoToList = () => {
         const found = batList.some(item => item._document.data.value.mapValue.fields.link.stringValue === currentVideo.id);
-        console.log(found);
         if (!found) {
             createUser()
             setAlreadyInList(true)
@@ -118,20 +132,18 @@ const ListContextProvider = (props) => {
             setAlreadyInList(true)
         }
     }
+
     const checkIfInList = () => {
         const found = batList.some(item => item._document.data.value.mapValue.fields.link.stringValue === currentVideo.id);
         if (!found) {
             setAlreadyInList(false)
-            console.log("not there");
         } else {
             setAlreadyInList(true)
-            console.log("already there");
         }
     }
-    console.log(alreadyInList);
+
     const createUser = async () => {
         const usersCollectionRef = collection(db, newUserID);
-        console.log(batList);
         const document = await addDoc(usersCollectionRef, { title: currentVideo.snippet.title, img: currentVideo.snippet.thumbnails.medium.url, link: currentVideo.id }, user.uid);
         setcauseReRender(!causeReRender)
         setAlreadyInList(true)
@@ -147,10 +159,14 @@ const ListContextProvider = (props) => {
     };
 
 
+
+
+
+
     // random
     const random = ["Take a break", "Have some water", "You've got this", "Everything will be fine", "Things will get better", "Keep Smiling", "Have a beautiful day", "Take care of yourself", "Spend some time with fam"]
     return (
-        <ListContext.Provider value={{ random, batList, checkIfInList, loading, userName, alreadyInList, addVideoToList, deleteUser, userName, createUser, currentVideo, isLoaded, checkIfLoggedIn, isLoggedIn, setIsLoggedIn }}>
+        <ListContext.Provider value={{ random, showNotificationForRandom, randomData, randomMusicVideo, batList, checkIfInList, loading, userName, alreadyInList, addVideoToList, deleteUser, userName, createUser, currentVideo, isLoaded, checkIfLoggedIn, isLoggedIn, setIsLoggedIn }}>
             {props.children}
         </ListContext.Provider>
     )
