@@ -6,7 +6,7 @@ Live Link : https://chrome.google.com/webstore/detail/batlist-watchlist-extensi/
 
 ## What exactly it does? 
 
-### It's basically like a watch later or Playlist feature from YouTube. You can any YouTube video to the extension with one click and it can be accessed anytime with one click.
+### It's basically like a watch later or Playlist feature from YouTube. You can add any YouTube video to the extension with one click and it can be accessed anytime and from any website with one click.
 
 Features :
 - Home Page
